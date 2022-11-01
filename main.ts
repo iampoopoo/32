@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const Location = SpriteKind.create()
+    export const coin = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
@@ -20,7 +21,8 @@ function setLevelTileMap () {
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile25`, function (sprite, location) {
-    info.setScore(info.score() + 50)
+    info.setScore(info.score() + 1)
+    coin.destroy()
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
     game.over(false, effects.melt)
@@ -68,6 +70,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile26`, function (sprite, 
 })
 let Jump_Speed = 0
 let myEnemy: Sprite = null
+let coin: Sprite = null
 let mySprite: Sprite = null
 let Level = 0
 setLevelTileMap()
@@ -99,6 +102,7 @@ mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
+coin = sprites.create(assets.tile`myTile25`, SpriteKind.Player)
 controller.moveSprite(mySprite, 100, 0)
 animation.runImageAnimation(
 mySprite,
@@ -106,6 +110,7 @@ assets.animation`MainCharachter`,
 200,
 true
 )
+tiles.placeOnTile(coin, tiles.getTileLocation(3, 16))
 tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 24))
 CreateEnemy()
 myEnemy.follow(mySprite, 50)
